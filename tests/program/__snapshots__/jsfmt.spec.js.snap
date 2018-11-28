@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`empty-open-and-close-php-tag.php - php-verify: empty-open-and-close-php-tag.php 1`] = `
+<?php
+?>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<?php
+?>
+
+`;
+
+exports[`empty-open-and-close-php-tag-1.php - php-verify: empty-open-and-close-php-tag-1.php 1`] = `
+<?php
+
+?>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<?php
+?>
+
+`;
+
+exports[`empty-open-and-close-php-tag-2.php - php-verify: empty-open-and-close-php-tag-2.php 1`] = `
+<?php
+
+
+?>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<?php
+?>
+
+`;
+
+exports[`empty-open-and-close-php-tag-3.php - php-verify: empty-open-and-close-php-tag-3.php 1`] = `
+<?php ?>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<?php ?>
+
+`;
+
+exports[`newline.php - php-verify: newline.php 1`] = `
+<?php
+
+echo 'test';
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<?php
+
+echo 'test';
+
+`;
+
+exports[`no-newline.php - php-verify: no-newline.php 1`] = `
+<?php
+$test = 1;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<?php
+$test = 1;
+
+`;
+
+exports[`single-open-php-tag.php - php-verify: single-open-php-tag.php 1`] = `
+<?php
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<?php
+
+`;
+
+exports[`single-open-php-tag-extra-space.php - php-verify: single-open-php-tag-extra-space.php 1`] = `
+<?php
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<?php
+
+`;

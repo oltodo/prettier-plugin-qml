@@ -1,0 +1,159 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`namespace.php - php-verify: namespace.php 1`] = `
+<?php
+namespace Base\\Test\\To\\Extend;
+
+use Other\\Test\\Import;
+use One\\More\\Test;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<?php
+namespace Base\\Test\\To\\Extend;
+
+use Other\\Test\\Import;
+use One\\More\\Test;
+
+`;
+
+exports[`namespace-newline-after.php - php-verify: namespace-newline-after.php 1`] = `
+<?php
+
+namespace Foo;
+
+use Other\\Test\\Import;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<?php
+
+namespace Foo;
+
+use Other\\Test\\Import;
+
+`;
+
+exports[`namespace-newline-before.php - php-verify: namespace-newline-before.php 1`] = `
+<?php
+
+namespace Foo;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<?php
+
+namespace Foo;
+
+`;
+
+exports[`namespace-next-call.php - php-verify: namespace-next-call.php 1`] = `
+<?php
+
+namespace Foo;
+
+call();
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<?php
+
+namespace Foo;
+
+call();
+
+`;
+
+exports[`namespace-no-newline-after.php - php-verify: namespace-no-newline-after.php 1`] = `
+<?php
+
+namespace Foo;
+use Other\\Test\\Import;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<?php
+
+namespace Foo;
+use Other\\Test\\Import;
+
+`;
+
+exports[`namespace-no-newline-before.php - php-verify: namespace-no-newline-before.php 1`] = `
+<?php
+namespace Foo;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<?php
+namespace Foo;
+
+`;
+
+exports[`nested.php - php-verify: nested.php 1`] = `
+<?php
+
+namespace foo {
+    function bar($a, $b) {
+        return $a + $b;
+    }
+    echo bar(2, 3);
+}
+
+namespace Name\\Space {
+    const FOO = 42;
+    function f() { echo __FUNCTION__."\\n"; }
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<?php
+
+namespace foo {
+    function bar($a, $b)
+    {
+        return $a + $b;
+    }
+    echo bar(2, 3);
+}
+
+namespace Name\\Space {
+    const FOO = 42;
+    function f()
+    {
+        echo __FUNCTION__ . "\\n";
+    }
+}
+
+`;
+
+exports[`nested-1.php - php-verify: nested-1.php 1`] = `
+<?php
+
+$var = 1;
+namespace foo {
+    function bar($a, $b) {
+        return $a + $b;
+    }
+    echo bar(2, 3);
+}
+$var = 1;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<?php
+
+$var = 1;
+namespace foo {
+    function bar($a, $b)
+    {
+        return $a + $b;
+    }
+    echo bar(2, 3);
+}
+$var = 1;
+
+`;
+
+exports[`single.php - php-verify: single.php 1`] = `
+<?php
+namespace Foo;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<?php
+namespace Foo;
+
+`;
+
+exports[`without-name.php - php-verify: without-name.php 1`] = `
+<?php
+namespace {}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<?php
+namespace {
+}
+
+`;

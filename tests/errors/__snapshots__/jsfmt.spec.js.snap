@@ -1,0 +1,104 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`errors.php - php-verify: errors.php 1`] = `
+<?php
+try {
+    throw new OtherException();
+} catch (Exception | TestException $e) {
+    echo 'Caught exception: ',  $e->getMessage();
+} catch (OtherException $i) {
+    echo 'Caugh other';
+} finally {
+    echo "First finally";
+}
+
+try {
+    throw new FirstException();
+} catch (FirstException | SecondException $e) {
+    // handle first and second exceptions
+}
+
+try {
+    throw new FirstException();
+} catch (FirstException $e) {
+    try {
+        throw new SecondException();
+    } catch (SecondException $e) {
+        // handle second exceptions
+    }
+}
+
+throw new VeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryLongClassException('exception');
+throw $e;
+throw new \\Exception('Bad logic in order cancel');
+
+try {} catch (Exception $e) {} finally {}
+
+try {
+
+} catch (Exception $e) {
+
+} finally {
+
+}
+
+try {
+    // Comment
+} catch (Exception $e) {
+    // Comment
+} finally {
+    // Comment
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<?php
+try {
+    throw new OtherException();
+} catch (Exception | TestException $e) {
+    echo 'Caught exception: ', $e->getMessage();
+} catch (OtherException $i) {
+    echo 'Caugh other';
+} finally {
+    echo "First finally";
+}
+
+try {
+    throw new FirstException();
+} catch (FirstException | SecondException $e) {
+    // handle first and second exceptions
+}
+
+try {
+    throw new FirstException();
+} catch (FirstException $e) {
+    try {
+        throw new SecondException();
+    } catch (SecondException $e) {
+        // handle second exceptions
+    }
+}
+
+throw new VeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryVeryLongClassException(
+    'exception'
+);
+throw $e;
+throw new \\Exception('Bad logic in order cancel');
+
+try {
+} catch (Exception $e) {
+} finally {
+}
+
+try {
+} catch (Exception $e) {
+} finally {
+}
+
+try {
+    // Comment
+} catch (Exception $e) {
+    // Comment
+} finally {
+    // Comment
+}
+
+`;
