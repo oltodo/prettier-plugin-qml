@@ -1,3 +1,0 @@
-<?php
-
-+/* Comment */$a;
