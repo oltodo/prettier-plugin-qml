@@ -138,12 +138,31 @@ function genericPrint(path, options, print) {
       return concat([node.identifier, ": ", path.call(print, "value")]);
     }
 
+    case "ArrayBinding": {
+      return group(
+        concat([
+          "[",
+          group(
+            concat([
+              indent(
+                concat(
+                  path.map(item => concat([softline, print(item)]), "children")
+                )
+              ),
+              softline
+            ])
+          ),
+          "]"
+        ])
+      );
+    }
+
     case "JavascriptBlock":
     case "Function":
       break;
   }
 
-  // console.error(`${node.kind} not implemented`, node);
+  console.error(`${node.kind} not implemented`, node);
 
   return "";
 }
