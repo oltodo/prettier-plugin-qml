@@ -78,6 +78,43 @@ function genericPrint(path, options, print) {
       ]);
     }
 
+    case "Signal": {
+      if (!node.parameters) {
+        return concat(["signal ", node.identifier]);
+      }
+
+      return concat([
+        "signal ",
+        group(
+          concat([
+            node.identifier,
+            "(",
+            group(
+              concat([
+                indent(
+                  concat(
+                    node.parameters.map(
+                      (item, index) =>
+                        concat([
+                          softline,
+                          item.type,
+                          " ",
+                          item.identifier,
+                          ...(index < node.parameters.length - 1 ? [", "] : [])
+                        ]),
+                      "parameters"
+                    )
+                  )
+                ),
+                softline
+              ])
+            ),
+            ")"
+          ])
+        )
+      ]);
+    }
+
     case "Property": {
       return concat([
         join(" ", [
