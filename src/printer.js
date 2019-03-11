@@ -217,7 +217,7 @@ function embedBlock(path, print, textToDoc, options) {
 
   return markAsRoot(
     conditionalGroup([
-      inline,
+      stripTrailingSemiColon(inline),
       concat(["{", indent(concat([hardline, block])), hardline, "}"])
     ])
   );
@@ -232,6 +232,20 @@ function getJavascriptCodeBlockValue(text, textToDoc) {
   const doc = textToDoc(text, { parser });
 
   return stripTrailingHardline(doc);
+}
+
+function stripTrailingSemiColon(doc) {
+  if (doc.parts) {
+    const index = _.indexOf(doc.parts, ";");
+
+    if (index === -1) {
+      doc.parts = _.map(doc.parts, stripTrailingSemiColon);
+    } else {
+      doc.parts = _.slice(doc.parts, 0, index);
+    }
+  }
+
+  return doc;
 }
 
 module.exports = {
