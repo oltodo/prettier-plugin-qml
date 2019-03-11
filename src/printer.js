@@ -121,7 +121,11 @@ function genericPrint(path, options, print) {
           ...(node.default ? ["default"] : []),
           ...(node.readonly ? ["readonly"] : []),
           "property",
-          node.type,
+          concat([
+            ...(node.typeModifier ? [node.typeModifier, "<"] : []),
+            node.type,
+            ...(node.typeModifier ? [">"] : [])
+          ]),
           node.identifier,
           ...(node.value
             ? [concat([trim, ": ", path.call(print, "value")])]
