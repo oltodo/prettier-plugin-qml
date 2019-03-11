@@ -1,6 +1,6 @@
 "use strict";
 
-const { find } = require("lodash");
+const _ = require("lodash");
 const {
   getSupportInfo,
   doc: {
@@ -147,7 +147,13 @@ function embedBlock(path, print, textToDoc, options) {
   );
 
   if (text[0] === "{") {
-    return null;
+    const blockContent = _.trim(text, "{}");
+    const code = getJavascriptCodeBlockValue(blockContent, textToDoc);
+
+    // @todo: ensure that something is clearly returning
+    return markAsRoot(
+      concat(["{", indent(concat([hardline, code])), hardline, "}"])
+    );
   }
 
   const inline = getJavascriptCodeBlockValue(text, textToDoc);
@@ -156,7 +162,7 @@ function embedBlock(path, print, textToDoc, options) {
   return markAsRoot(
     conditionalGroup([
       inline,
-      concat(["{", indent(concat([hardline, block])), trim, hardline, "}"])
+      concat(["{", indent(concat([hardline, block])), hardline, "}"])
     ])
   );
 }
@@ -165,7 +171,7 @@ function getJavascriptCodeBlockValue(text, textToDoc) {
   const { languages } = getSupportInfo();
   const {
     parsers: [parser]
-  } = find(languages, { name: "JavaScript" });
+  } = _.find(languages, { name: "JavaScript" });
 
   const doc = textToDoc(text, { parser });
 

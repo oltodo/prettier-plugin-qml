@@ -519,7 +519,9 @@ Rectangle {
     property var veryLongValueProperty: {
         return ApplaunchService.Service.getInstance().maintenance["enable"];
     }
-    property var someNumber:
+    property var someNumber: {
+        1.5;
+    }
     property var someList: [1, 2, "three", "four"];
     property var someObject: Rectangle {
         width: 100;
