@@ -71,11 +71,7 @@ function genericPrint(path, options, print) {
         node.identifier,
         " {",
         indent(
-          concat([
-            concat(
-              path.map(item => concat([hardline, print(item)]), "children")
-            )
-          ])
+          concat(path.map(item => concat([hardline, print(item)]), "children"))
         ),
         hardline,
         "}"
