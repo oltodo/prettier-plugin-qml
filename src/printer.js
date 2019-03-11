@@ -66,16 +66,32 @@ function genericPrint(path, options, print) {
         return concat([node.identifier, " {}"]);
       }
 
-      return concat([
-        // hardline,
-        node.identifier,
-        " {",
-        indent(
-          concat(path.map(item => concat([hardline, print(item)]), "children"))
-        ),
-        hardline,
-        "}"
-      ]);
+      let body;
+
+      if (_.every(node.children, { kind: "Attribute" })) {
+        body = group(
+          concat([
+            indent(
+              join(
+                ifBreak("", ";"),
+                path.map(item => concat([line, print(item)]), "children")
+              )
+            ),
+            line
+          ])
+        );
+      } else {
+        body = concat([
+          indent(
+            concat(
+              path.map(item => concat([hardline, print(item)]), "children")
+            )
+          ),
+          hardline
+        ]);
+      }
+
+      return concat([node.identifier, " {", body, "}", breakParent]);
     }
 
     case "Signal": {
