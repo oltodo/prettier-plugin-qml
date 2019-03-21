@@ -24,8 +24,63 @@ const {
       trim
     },
     utils: { mapDoc, stripTrailingHardline }
-  }
+  },
+  util: { isNextLineEmpty }
 } = require("prettier");
+
+const {
+  getLast,
+  getPenultimate,
+  isLastStatement,
+  lineShouldEndWithSemicolon,
+  printNumber,
+  shouldFlatten,
+  maybeStripLeadingSlashFromUse,
+  fileShouldEndWithHardline,
+  hasDanglingComments,
+  hasLeadingComment,
+  hasTrailingComment,
+  docShouldHaveTrailingNewline,
+  isLookupNode,
+  isFirstChildrenInlineNode,
+  shouldPrintHardLineBeforeEndInControlStructure,
+  getAlignment,
+  getFirstNestedChildNode,
+  getLastNestedChildNode,
+  isProgramLikeNode,
+  getNodeKindIncludingLogical,
+  hasEmptyBody,
+  hasNewline,
+  isNextLineEmptyAfterNamespace,
+  shouldPrintHardlineBeforeTrailingComma,
+  isDocNode,
+  getAncestorNode
+} = require("./util");
+
+function printLines(path, options, print, childrenAttribute = "children") {
+  const node = path.getValue();
+  const parentNode = path.getParentNode();
+
+  const parts = [];
+
+  path.map(childPath => {
+    let printed = concat([print(childPath), printNextEmptyLine(path, options)]);
+
+    parts.push(printed);
+  }, childrenAttribute);
+
+  return concat(parts);
+}
+
+function printNextEmptyLine(path, options) {
+  const node = path.getValue();
+
+  if (isNextLineEmpty(options.originalText, node, options)) {
+    return hardline;
+  }
+
+  return "";
+}
 
 function genericPrint(path, options, print) {
   const node = path.getValue();
@@ -45,7 +100,7 @@ function genericPrint(path, options, print) {
         return "";
       }
 
-      return concat(path.map(item => concat([print(item)]), "children"));
+      return printLines(path, options, print);
     }
 
     case "Import": {
@@ -84,7 +139,15 @@ function genericPrint(path, options, print) {
         body = concat([
           indent(
             concat(
-              path.map(item => concat([hardline, print(item)]), "children")
+              path.map(
+                item =>
+                  concat([
+                    hardline,
+                    print(item),
+                    printNextEmptyLine(path, options)
+                  ]),
+                "children"
+              )
             )
           ),
           hardline
@@ -161,7 +224,8 @@ function genericPrint(path, options, print) {
           group(
             concat([
               indent(
-                concat(
+                join(
+                  ",",
                   path.map(item => concat([softline, print(item)]), "children")
                 )
               ),
@@ -172,10 +236,6 @@ function genericPrint(path, options, print) {
         ])
       );
     }
-
-    case "JavascriptBlock":
-    case "Function":
-      break;
   }
 
   console.error(`${node.kind} not implemented`, node);

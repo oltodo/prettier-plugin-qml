@@ -10,7 +10,7 @@
     "src"
   ],
   "dependencies": {
-    "@oltodo/qml-parser": "https://github.com/oltodo/qml-parser/tarball/d945214976c66d6f6d56a217a5d1e7bf8f81c014",
+    "@oltodo/qml-parser": "https://github.com/oltodo/qml-parser/tarball/26874ca30b778e95d12b4c47d033f8e29e62d8c1",
     "mem": "4.1.0",
     "php-parser": "glayzzle/php-parser#b1429015bcbf24d426cd4611de2aaf5e3c4c7210",
     "qmlweb-parser": "0.3.4"
