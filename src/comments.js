@@ -10,6 +10,7 @@ const {
 const { concat, join, indent, hardline } = require("prettier").doc.builders;
 // TODO: remove after resolve https://github.com/prettier/prettier/pull/5049
 const { hasNewline, hasNewlineInRange } = require("./util");
+
 /*
 Comment functions are meant to inspect various edge cases using given comment nodes,
 with information about where those comment nodes exist in the tree (ie enclosingNode,
@@ -867,7 +868,7 @@ function getCommentChildNodes(node) {
 
 function canAttachComment(node) {
   return (
-    node.kind && node.kind !== "commentblock" && node.kind !== "commentline"
+    node.kind && node.kind !== "CommentBlock" && node.kind !== "CommentLine"
   );
 }
 

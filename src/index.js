@@ -2,11 +2,8 @@
 
 const parse = require("./parser");
 const printer = require("./printer");
-const clean = require("./clean");
 const options = require("./options");
-const comments = require("./comments");
-const { join, hardline } = require("prettier").doc.builders;
-const { hasPragma, insertPragma } = require("./pragma");
+const { hasPragma } = require("./pragma");
 
 const languages = [
   {

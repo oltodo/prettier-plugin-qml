@@ -296,56 +296,54 @@ function stripTrailingSemiColon(doc) {
 
 module.exports = {
   print: genericPrint,
-  embed
+  embed,
 
-  // insertPragma,
+  insertPragma,
   // massageAstNode: clean,
-  // getCommentChildNodes: comments.getCommentChildNodes,
-  // canAttachComment: comments.canAttachComment,
-  // isBlockComment: comments.isBlockComment
-  // handleComments: {
-  //   ownLine: comments.handleOwnLineComment,
-  //   endOfLine: comments.handleEndOfLineComment,
-  //   remaining: comments.handleRemainingComment
-  // },
-  // printComment(commentPath) {
-  //   const comment = commentPath.getValue();
+  getCommentChildNodes: comments.getCommentChildNodes,
+  canAttachComment: comments.canAttachComment,
+  isBlockComment: comments.isBlockComment,
+  handleComments: {
+    ownLine: comments.handleOwnLineComment,
+    endOfLine: comments.handleEndOfLineComment,
+    remaining: comments.handleRemainingComment
+  },
+  printComment(commentPath) {
+    const comment = commentPath.getValue();
 
-  //   switch (comment.kind) {
-  //     case "commentblock": {
-  //       // for now, don't touch single line block comments
-  //       if (!comment.value.includes("\n")) {
-  //         return comment.value;
-  //       }
+    switch (comment.kind) {
+      case "CommentBlock": {
+        // for now, don't touch single line block comments
+        if (!comment.value.includes("\n")) {
+          return comment.value;
+        }
 
-  //       const lines = comment.value.split(/\r?\n/g);
-  //       // if this is a block comment, handle indentation
-  //       if (
-  //         lines
-  //           .slice(1, lines.length - 1)
-  //           .every(line => line.trim()[0] === "*")
-  //       ) {
-  //         return join(
-  //           hardline,
-  //           lines.map(
-  //             (line, index) =>
-  //               (index > 0 ? " " : "") +
-  //               (index < lines.length - 1 ? line.trim() : line.trimLeft())
-  //           )
-  //         );
-  //       }
+        const lines = comment.value.split(/\r?\n/g);
+        // if this is a block comment, handle indentation
+        if (
+          lines.slice(1, lines.length - 1).every(line => line.trim()[0] === "*")
+        ) {
+          return join(
+            hardline,
+            lines.map(
+              (line, index) =>
+                (index > 0 ? " " : "") +
+                (index < lines.length - 1 ? line.trim() : line.trimLeft())
+            )
+          );
+        }
 
-  //       // otherwise we can't be sure about indentation, so just print as is
-  //       return comment.value;
-  //     }
-  //     case "commentline": {
-  //       return comment.value.trimRight();
-  //     }
-  //     /* istanbul ignore next */
-  //     default:
-  //       throw new Error(`Not a comment: ${JSON.stringify(comment)}`);
-  //   }
-  // },
+        // otherwise we can't be sure about indentation, so just print as is
+        return comment.value;
+      }
+      case "CommentLine": {
+        return comment.value.trimRight();
+      }
+      /* istanbul ignore next */
+      default:
+        throw new Error(`Not a comment: ${JSON.stringify(comment)}`);
+    }
+  }
   // hasPrettierIgnore(path) {
   //   const node = path.getNode();
   //   return (
