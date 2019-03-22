@@ -16,7 +16,6 @@ const languages = [
     aceMode: "text",
     codemirrorMode: "qml",
     extensions: [".qml", ".qbs"],
-    // filenames: [".php_cs", ".php_cs.dist", "Phakefile"],
     vscodeLanguageIds: ["qml"],
     linguistLanguageId: 305
   }

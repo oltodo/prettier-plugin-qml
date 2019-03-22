@@ -5,66 +5,35 @@ const {
   getSupportInfo,
   doc: {
     builders: {
-      align,
       breakParent,
       concat,
       conditionalGroup,
-      dedent,
-      dedentToRoot,
       group,
       hardline,
       ifBreak,
       indent,
       join,
       line,
-      lineSuffix,
-      literalline,
       markAsRoot,
       softline,
       trim
     },
-    utils: { mapDoc, stripTrailingHardline }
+    utils: { stripTrailingHardline }
   },
   util: { isNextLineEmpty }
 } = require("prettier");
 
-const {
-  getLast,
-  getPenultimate,
-  isLastStatement,
-  lineShouldEndWithSemicolon,
-  printNumber,
-  shouldFlatten,
-  maybeStripLeadingSlashFromUse,
-  fileShouldEndWithHardline,
-  hasDanglingComments,
-  hasLeadingComment,
-  hasTrailingComment,
-  docShouldHaveTrailingNewline,
-  isLookupNode,
-  isFirstChildrenInlineNode,
-  shouldPrintHardLineBeforeEndInControlStructure,
-  getAlignment,
-  getFirstNestedChildNode,
-  getLastNestedChildNode,
-  isProgramLikeNode,
-  getNodeKindIncludingLogical,
-  hasEmptyBody,
-  hasNewline,
-  isNextLineEmptyAfterNamespace,
-  shouldPrintHardlineBeforeTrailingComma,
-  isDocNode,
-  getAncestorNode
-} = require("./util");
+const comments = require("./comments");
+const { insertPragma } = require("./pragma");
 
 function printLines(path, options, print, childrenAttribute = "children") {
-  const node = path.getValue();
-  const parentNode = path.getParentNode();
-
   const parts = [];
 
   path.map(childPath => {
-    let printed = concat([print(childPath), printNextEmptyLine(path, options)]);
+    const printed = concat([
+      print(childPath),
+      printNextEmptyLine(path, options)
+    ]);
 
     parts.push(printed);
   }, childrenAttribute);
@@ -238,6 +207,7 @@ function genericPrint(path, options, print) {
     }
   }
 
+  // eslint-disable-next-line
   console.error(`${node.kind} not implemented`, node);
 
   return "";
