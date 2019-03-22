@@ -1,8 +1,8 @@
 {
-  "name": "@prettier/plugin-qml",
+  "name": "prettier-plugin-qml",
   "version": "0.9.0",
   "description": "Prettier QML Plugin",
-  "repository": "prettier/prettier-qml",
+  "repository": "oltodo/prettier-plugin-qml",
   "author": "Nicolas Bazille <@oltodo>",
   "license": "MIT",
   "main": "src",
