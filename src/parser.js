@@ -2,7 +2,7 @@
 
 const { execSync } = require("child_process");
 
-const escapeString = str => str.replace(/"/g, '\\"');
+const escapeString = str => str.replace(/("|`)/g, "\\$1");
 
 const parse = text => {
   const bin = require.resolve("@oltodo/qml-parser");

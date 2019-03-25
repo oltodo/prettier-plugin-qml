@@ -205,10 +205,6 @@ function genericPrint(path, options, print) {
         ])
       );
     }
-
-    case "Function":
-    case "JavascriptBlock":
-      return "";
   }
 
   // eslint-disable-next-line
