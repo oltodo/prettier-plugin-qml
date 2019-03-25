@@ -205,6 +205,10 @@ function genericPrint(path, options, print) {
         ])
       );
     }
+
+    case "Function":
+    case "JavascriptBlock":
+      return "";
   }
 
   // eslint-disable-next-line
@@ -297,7 +301,6 @@ function stripTrailingSemiColon(doc) {
 module.exports = {
   print: genericPrint,
   embed,
-
   insertPragma,
   // massageAstNode: clean,
   getCommentChildNodes: comments.getCommentChildNodes,
@@ -343,14 +346,14 @@ module.exports = {
       default:
         throw new Error(`Not a comment: ${JSON.stringify(comment)}`);
     }
+  },
+  hasPrettierIgnore(path) {
+    const node = path.getNode();
+    return (
+      node &&
+      node.comments &&
+      node.comments.length > 0 &&
+      node.comments.some(comment => comment.value.includes("prettier-ignore"))
+    );
   }
-  // hasPrettierIgnore(path) {
-  //   const node = path.getNode();
-  //   return (
-  //     node &&
-  //     node.comments &&
-  //     node.comments.length > 0 &&
-  //     node.comments.some(comment => comment.value.includes("prettier-ignore"))
-  //   );
-  // }
 };
