@@ -72,6 +72,10 @@ function genericPrint(path, options, print) {
       return concat([printLines(path, options, print), hardline]);
     }
 
+    case "Pragma": {
+      return concat([join(" ", ["pragma", node.type]), hardline]);
+    }
+
     case "Import": {
       return concat([
         join(" ", [
