@@ -69,7 +69,7 @@ function genericPrint(path, options, print) {
         return "";
       }
 
-      return printLines(path, options, print);
+      return concat([printLines(path, options, print), hardline]);
     }
 
     case "Import": {
