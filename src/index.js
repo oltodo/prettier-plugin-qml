@@ -42,6 +42,7 @@ module.exports = {
   parsers,
   options,
   defaultOptions: {
-    tabWidth: 4
+    tabWidth: 4,
+    trailingComma: "none"
   }
 };
