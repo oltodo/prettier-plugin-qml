@@ -43,6 +43,7 @@ module.exports = {
   options,
   defaultOptions: {
     tabWidth: 4,
-    trailingComma: "none"
+    trailingComma: "none",
+    singleQuote: true
   }
 };

@@ -224,7 +224,7 @@ function embed(path, print, textToDoc, options) {
     return embedFunction(path, print, textToDoc, options);
   }
 
-  if (node.kind === "JavascriptBlock") {
+  if (node.kind === "JavascriptBlock" || node.kind === "JavascriptValue") {
     return embedBlock(path, print, textToDoc, options);
   }
 
@@ -252,7 +252,7 @@ function embedBlock(path, print, textToDoc, options) {
     node.loc.end.offset
   );
 
-  if (text[0] === "{") {
+  if (node.kind === "JavascriptBlock") {
     const blockContent = _.trim(text, "{}");
     const code = getJavascriptCodeBlockValue(blockContent, textToDoc);
 
@@ -262,7 +262,14 @@ function embedBlock(path, print, textToDoc, options) {
     );
   }
 
-  const inline = getJavascriptCodeBlockValue(text, textToDoc);
+  let inline;
+
+  if (text[0] === "{") {
+    inline = getJsonCodeBlockValue(text, textToDoc, options.singleQuote);
+  } else {
+    inline = getJavascriptCodeBlockValue(text, textToDoc);
+  }
+
   const block = getJavascriptCodeBlockValue(`return ${text}`, textToDoc);
 
   return markAsRoot(
@@ -282,6 +289,42 @@ function getJavascriptCodeBlockValue(text, textToDoc) {
   const doc = textToDoc(text, { parser });
 
   return stripTrailingHardline(doc);
+}
+
+function getJsonCodeBlockValue(text, textToDoc, singleQuote) {
+  const { languages } = getSupportInfo();
+  const {
+    parsers: [parser]
+  } = _.find(languages, { name: "JSON" });
+
+  let doc = textToDoc(text, { parser });
+
+  if (singleQuote) {
+    doc = toSingleQuote(doc);
+  }
+
+  return stripTrailingHardline(doc);
+}
+
+function toSingleQuote(doc) {
+  if (doc.parts) {
+    doc.parts = _.map(doc.parts, toSingleQuote);
+  }
+
+  if (doc.contents) {
+    doc.contents = toSingleQuote(doc.contents);
+  }
+
+  if (
+    _.isString(doc) &&
+    _.startsWith(doc, '"') &&
+    _.endsWith(doc, '"') &&
+    doc.indexOf("'") === -1
+  ) {
+    return `'${_.trim(doc, '"')}'`;
+  }
+
+  return doc;
 }
 
 function stripTrailingSemiColon(doc) {
