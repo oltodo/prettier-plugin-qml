@@ -33,7 +33,8 @@
   },
   "scripts": {
     "test": "jest",
-    "prettier": "prettier --plugin=. --parser=php"
+    "prettier": "prettier --plugin=. --parser=php",
+    "playground": "cd playground && yarn start"
   },
   "jest": {
     "projects": [
