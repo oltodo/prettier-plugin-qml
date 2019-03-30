@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import AceEditor from "react-ace";
 import styled, { createGlobalStyle } from "styled-components";
 import ky from "ky";
