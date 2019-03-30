@@ -1,12 +1,15 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import AceEditor from "react-ace";
 import styled, { createGlobalStyle } from "styled-components";
 import ky from "ky";
 import raw from "raw.macro";
 import debounce from "lodash/debounce";
+import useLocalStorage from "react-use-localstorage";
 
 import "brace/theme/monokai";
 import "brace/mode/javascript";
+
+const defaultValue = raw("./defaultValue.qml");
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -34,86 +37,76 @@ const ColumnMiddle = styled(Column)`
 
 const ColumnRight = styled(Column)``;
 
-const defaultValue = raw("./defaultValue.qml");
+function App() {
+  const [codeLocalStorage, setCodeLocalStorage] = useLocalStorage(
+    "code",
+    defaultValue
+  );
+  const [code, setCode] = useState(codeLocalStorage);
+  const [doc, setDoc] = useState("");
+  const [formattedCode, setFormattedCode] = useState("");
 
-class App extends Component {
-  state = {
-    code: defaultValue,
-    doc: "",
-    formattedCode: ""
-  };
-
-  componentDidMount() {
-    this.reformat(this.state.code);
-  }
-
-  handleChange(code) {
-    this.setState({ code });
-    this.reformat(code);
-  }
-
-  reformat = debounce(async code => {
-    console.log("test");
+  const reformat = debounce(async code => {
     const res = await ky
       .post("http://localhost:3001", { json: { code } })
       .json();
 
-    this.setState(() => ({
-      doc: res.doc,
-      formattedCode: res.code
-    }));
-  }, 500);
+    setDoc(res.doc);
+    setFormattedCode(res.code);
+  });
 
-  render() {
-    const { code, doc, formattedCode } = this.state;
-
-    return (
-      <Wrapper>
-        <GlobalStyle />
-        <ColumnLeft>
-          <AceEditor
-            theme="monokai"
-            mode="text"
-            onChange={this.handleChange.bind(this)}
-            name="editor"
-            width="100%"
-            height="100vh"
-            defaultValue={defaultValue}
-            value={code}
-            editorProps={{ $blockScrolling: true }}
-          />
-        </ColumnLeft>
-        <ColumnMiddle>
-          <AceEditor
-            theme="monokai"
-            mode="javascript"
-            name="editor"
-            width="100%"
-            height="100vh"
-            value={doc}
-            highlightActiveLine={false}
-            showGutter={false}
-            showPrintMargin={false}
-            editorProps={{ $blockScrolling: true }}
-          />
-        </ColumnMiddle>
-        <ColumnRight>
-          <AceEditor
-            theme="monokai"
-            mode="text"
-            name="editor"
-            width="100%"
-            height="100vh"
-            value={formattedCode}
-            highlightActiveLine={false}
-            showGutter={false}
-            showPrintMargin={false}
-            editorProps={{ $blockScrolling: true }}
-          />
-        </ColumnRight>
-      </Wrapper>
-    );
-  }
+  return (
+    <Wrapper>
+      <GlobalStyle />
+      <ColumnLeft>
+        <AceEditor
+          theme="monokai"
+          mode="text"
+          onChange={async newCode => {
+            setCodeLocalStorage(newCode);
+            setCode(newCode);
+            reformat(newCode);
+          }}
+          onLoad={() => reformat(code)}
+          name="editor"
+          width="100%"
+          height="100vh"
+          value={code}
+          editorProps={{ $blockScrolling: true }}
+        />
+      </ColumnLeft>
+      <ColumnMiddle>
+        <AceEditor
+          theme="monokai"
+          mode="javascript"
+          name="editor"
+          width="100%"
+          height="100vh"
+          value={doc}
+          highlightActiveLine={false}
+          showGutter={false}
+          showPrintMargin={false}
+          readOnly
+          editorProps={{ $blockScrolling: true }}
+        />
+      </ColumnMiddle>
+      <ColumnRight>
+        <AceEditor
+          theme="monokai"
+          mode="text"
+          name="editor"
+          width="100%"
+          height="100vh"
+          value={formattedCode}
+          highlightActiveLine={false}
+          showGutter={false}
+          showPrintMargin={false}
+          readOnly
+          editorProps={{ $blockScrolling: true }}
+        />
+      </ColumnRight>
+    </Wrapper>
+  );
 }
 
 export default App;

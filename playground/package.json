@@ -9,6 +9,7 @@
     "react-ace": "6.4.0",
     "react-dom": "16.8.6",
     "react-scripts": "2.1.8",
+    "react-use-localstorage": "3.0.1-alpha.0",
     "styled-components": "4.2.0"
   },
   "devDependencies": {
