@@ -1,6 +1,6 @@
 {
   "name": "prettier-plugin-qml",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Prettier QML Plugin",
   "repository": "oltodo/prettier-plugin-qml",
   "author": "Nicolas Bazille <@oltodo>",

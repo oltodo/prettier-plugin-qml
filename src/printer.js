@@ -251,6 +251,11 @@ function embedBlock(path, print, textToDoc, options) {
 
   if (node.kind === "JavascriptBlock") {
     const blockContent = _.trim(text, "{}");
+
+    if (_.trim(blockContent) === "") {
+      return "{}";
+    }
+
     const code = getJavascriptCodeBlockValue(blockContent, textToDoc);
 
     // @todo: ensure that something is clearly returning
