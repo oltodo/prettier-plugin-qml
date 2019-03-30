@@ -5,9 +5,7 @@ const {
   getSupportInfo,
   doc: {
     builders: {
-      breakParent,
       concat,
-      conditionalGroup,
       group,
       hardline,
       ifBreak,
@@ -20,7 +18,7 @@ const {
     },
     utils: { stripTrailingHardline }
   },
-  util: { isNextLineEmpty }
+  util: { isNextLineEmpty, hasNewlineInRange }
 } = require("prettier");
 
 const comments = require("./comments");
@@ -94,40 +92,35 @@ function genericPrint(path, options, print) {
         return concat([node.identifier, " {}"]);
       }
 
-      let body;
+      const shouldBreak = !_.every(node.children, { kind: "Attribute" });
+      const separator = shouldBreak ? hardline : line;
 
-      if (_.every(node.children, { kind: "Attribute" })) {
-        body = group(
-          concat([
-            indent(
-              join(
-                ifBreak("", ";"),
-                path.map(item => concat([line, print(item)]), "children")
-              )
-            ),
-            line
-          ])
-        );
-      } else {
-        body = concat([
-          indent(
-            concat(
-              path.map(
-                item =>
-                  concat([
-                    hardline,
-                    print(item),
-                    printNextEmptyLine(path, options)
-                  ]),
-                "children"
-              )
-            )
-          ),
-          hardline
-        ]);
-      }
+      const content = group(
+        join(
+          concat([ifBreak("", ";"), separator]),
+          path.map(
+            item => concat([print(item), printNextEmptyLine(path, options)]),
+            "children"
+          )
+        ),
+        {
+          shouldBreak: hasNewlineInRange(
+            options.originalText,
+            options.locStart(node),
+            options.locStart(node.children[0])
+          )
+        }
+      );
 
-      return concat([node.identifier, " {", body, "}", breakParent]);
+      return group(
+        concat([
+          node.identifier,
+          " {",
+          indent(concat([separator, content])),
+          separator,
+          "}"
+        ])
+      );
     }
 
     case "Signal": {
@@ -168,26 +161,29 @@ function genericPrint(path, options, print) {
     }
 
     case "Property": {
-      return concat([
-        join(" ", [
-          ...(node.default ? ["default"] : []),
-          ...(node.readonly ? ["readonly"] : []),
-          "property",
-          concat([
-            ...(node.typeModifier ? [node.typeModifier, "<"] : []),
-            node.type,
-            ...(node.typeModifier ? [">"] : [])
-          ]),
-          node.identifier,
-          ...(node.value
-            ? [concat([trim, ": ", path.call(print, "value")])]
-            : [])
-        ])
+      const declaration = join(" ", [
+        ...(node.default ? ["default"] : []),
+        ...(node.readonly ? ["readonly"] : []),
+        "property",
+        concat([
+          ...(node.typeModifier ? [node.typeModifier, "<"] : []),
+          node.type,
+          ...(node.typeModifier ? [">"] : [])
+        ]),
+        concat([node.identifier, node.value ? ": " : ""])
       ]);
+
+      if (!node.value) {
+        return declaration;
+      }
+
+      const value = path.call(print, "value");
+
+      return group(concat([declaration, value]));
     }
 
     case "Attribute": {
-      return concat([node.identifier, ": ", path.call(print, "value")]);
+      return group(concat([node.identifier, ": ", path.call(print, "value")]));
     }
 
     case "ArrayBinding": {
@@ -195,16 +191,17 @@ function genericPrint(path, options, print) {
         concat([
           "[",
           group(
-            concat([
-              indent(
+            indent(
+              concat([
+                hardline,
                 join(
-                  ",",
-                  path.map(item => concat([softline, print(item)]), "children")
+                  concat([",", hardline]),
+                  path.map(item => print(item), "children")
                 )
-              ),
-              softline
-            ])
+              ])
+            )
           ),
+          hardline,
           "]"
         ])
       );
@@ -257,27 +254,20 @@ function embedBlock(path, print, textToDoc, options) {
     const code = getJavascriptCodeBlockValue(blockContent, textToDoc);
 
     // @todo: ensure that something is clearly returning
-    return markAsRoot(
+    return group(
       concat(["{", indent(concat([hardline, code])), hardline, "}"])
     );
   }
 
-  let inline;
+  let content;
 
   if (text[0] === "{") {
-    inline = getJsonCodeBlockValue(text, textToDoc, options.singleQuote);
+    content = getJsonCodeBlockValue(text, textToDoc, options.singleQuote);
   } else {
-    inline = getJavascriptCodeBlockValue(text, textToDoc);
+    content = getJavascriptCodeBlockValue(text, textToDoc);
   }
 
-  const block = getJavascriptCodeBlockValue(`return ${text}`, textToDoc);
-
-  return markAsRoot(
-    conditionalGroup([
-      stripTrailingSemiColon(inline),
-      concat(["{", indent(concat([hardline, block])), hardline, "}"])
-    ])
-  );
+  return markAsRoot(stripTrailingSemiColon(content));
 }
 
 function getJavascriptCodeBlockValue(text, textToDoc) {

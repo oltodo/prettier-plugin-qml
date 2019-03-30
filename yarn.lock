@@ -18,9 +18,9 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
-"@oltodo/qml-parser@https://github.com/oltodo/qml-parser/tarball/fc7266a0dcb84a0ead29cc070102b7032fe06255":
+"@oltodo/qml-parser@https://github.com/oltodo/qml-parser/tarball/be5e785a915b7462f90f347a8cf19587a313d86c":
   version "1.0.0"
-  resolved "https://github.com/oltodo/qml-parser/tarball/fc7266a0dcb84a0ead29cc070102b7032fe06255#beccb5d143e0e3f01491daac85f213213c8d7ab6"
+  resolved "https://github.com/oltodo/qml-parser/tarball/be5e785a915b7462f90f347a8cf19587a313d86c#868d1c780e37feff51ba60cf8639bcfa4ca1a9d6"
 
 abab@^2.0.0:
   version "2.0.0"
