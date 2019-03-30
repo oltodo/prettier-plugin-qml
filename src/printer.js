@@ -88,8 +88,17 @@ function genericPrint(path, options, print) {
     }
 
     case "ObjectDefinition": {
+      const parts = [];
+
+      parts.push(node.identifier);
+
+      if (node.on) {
+        parts.push(" on ");
+        parts.push(node.on);
+      }
+
       if (!node.children) {
-        return concat([node.identifier, " {}"]);
+        return concat([...parts, " {}"]);
       }
 
       const shouldBreak = !_.every(node.children, { kind: "Attribute" });
@@ -114,7 +123,7 @@ function genericPrint(path, options, print) {
 
       return group(
         concat([
-          node.identifier,
+          ...parts,
           " {",
           indent(concat([separator, content])),
           separator,
