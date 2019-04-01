@@ -6,6 +6,7 @@ const {
   doc: {
     builders: {
       concat,
+      conditionalGroup,
       group,
       hardline,
       ifBreak,
@@ -23,31 +24,6 @@ const {
 
 const comments = require("./comments");
 const { insertPragma } = require("./pragma");
-
-function printLines(path, options, print, childrenAttribute = "children") {
-  const parts = [];
-
-  path.map(childPath => {
-    const printed = concat([
-      print(childPath),
-      printNextEmptyLine(path, options)
-    ]);
-
-    parts.push(printed);
-  }, childrenAttribute);
-
-  return concat(parts);
-}
-
-function printNextEmptyLine(path, options) {
-  const node = path.getValue();
-
-  if (isNextLineEmpty(options.originalText, node, options)) {
-    return hardline;
-  }
-
-  return "";
-}
 
 function genericPrint(path, options, print) {
   const node = path.getValue();
@@ -101,35 +77,45 @@ function genericPrint(path, options, print) {
         return concat([...parts, " {}"]);
       }
 
-      const shouldBreak = !_.every(node.children, { kind: "Attribute" });
-      const separator = shouldBreak ? hardline : line;
+      const shouldBreak =
+        !_.every(node.children, { kind: "Attribute" }) ||
+        hasNewlineInRange(
+          options.originalText,
+          options.locStart(node),
+          options.locStart(node.children[0])
+        );
 
-      const content = group(
-        join(
-          concat([ifBreak("", ";"), separator]),
-          path.map(
-            item => concat([print(item), printNextEmptyLine(path, options)]),
-            "children"
-          )
-        ),
-        {
-          shouldBreak: hasNewlineInRange(
-            options.originalText,
-            options.locStart(node),
-            options.locStart(node.children[0])
-          )
-        }
-      );
+      const getContent = shouldBreak =>
+        group(
+          concat([
+            ...parts,
+            " {",
+            indent(
+              concat([
+                line,
+                group(
+                  join(
+                    concat([ifBreak("", ";"), line]),
+                    path.map(
+                      item =>
+                        concat([
+                          print(item),
+                          printNextEmptyLine(path, options)
+                        ]),
+                      "children"
+                    )
+                  ),
+                  { shouldBreak }
+                )
+              ])
+            ),
+            line,
+            "}"
+          ]),
+          { shouldBreak }
+        );
 
-      return group(
-        concat([
-          ...parts,
-          " {",
-          indent(concat([separator, content])),
-          separator,
-          "}"
-        ])
-      );
+      return conditionalGroup([getContent(shouldBreak), getContent(true)]);
     }
 
     case "Signal": {
@@ -290,6 +276,31 @@ function embedBlock(path, print, textToDoc, options) {
   }
 
   return markAsRoot(stripTrailingSemiColon(content));
+}
+
+function printLines(path, options, print, childrenAttribute = "children") {
+  const parts = [];
+
+  path.map(childPath => {
+    const printed = concat([
+      print(childPath),
+      printNextEmptyLine(path, options)
+    ]);
+
+    parts.push(printed);
+  }, childrenAttribute);
+
+  return concat(parts);
+}
+
+function printNextEmptyLine(path, options) {
+  const node = path.getValue();
+
+  if (isNextLineEmpty(options.originalText, node, options)) {
+    return hardline;
+  }
+
+  return "";
 }
 
 function getJavascriptCodeBlockValue(text, textToDoc) {
