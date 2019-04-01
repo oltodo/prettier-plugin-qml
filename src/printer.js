@@ -192,7 +192,15 @@ function genericPrint(path, options, print) {
     }
 
     case "Attribute": {
-      return group(concat([node.identifier, ": ", path.call(print, "value")]));
+      let value;
+
+      if (isValueEmpty(node)) {
+        value = "{}";
+      } else {
+        value = path.call(print, "value");
+      }
+
+      return group(concat([node.identifier, ": ", value]));
     }
 
     case "ArrayBinding": {
@@ -343,6 +351,18 @@ function stripTrailingSemiColon(doc) {
   }
 
   return doc;
+}
+
+function isValueEmpty(node) {
+  if (!node.value) {
+    return true;
+  }
+
+  if (node.value.kind === "JavascriptValue" && node.value.value === ";") {
+    return true;
+  }
+
+  return false;
 }
 
 module.exports = {
