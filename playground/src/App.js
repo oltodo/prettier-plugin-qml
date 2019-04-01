@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AceEditor from "react-ace";
 import styled, { createGlobalStyle } from "styled-components";
 import ky from "ky";
 import raw from "raw.macro";
-import debounce from "lodash/debounce";
 import useLocalStorage from "react-use-localstorage";
+import { useDebounce } from "use-debounce";
 
 import "brace/theme/monokai";
 import "brace/mode/javascript";
@@ -37,6 +37,20 @@ const ColumnMiddle = styled(Column)`
 
 const ColumnRight = styled(Column)``;
 
+let controller = new AbortController();
+
+const fetchFormattedCode = code => {
+  controller = new AbortController();
+
+  return ky
+    .post("http://localhost:3001", {
+      json: { code },
+      signal: controller.signal,
+      timeout: 10000
+    })
+    .json();
+};
+
 function App() {
   const [codeLocalStorage, setCodeLocalStorage] = useLocalStorage(
     "code",
@@ -45,15 +59,18 @@ function App() {
   const [code, setCode] = useState(codeLocalStorage);
   const [doc, setDoc] = useState("");
   const [formattedCode, setFormattedCode] = useState("");
+  const [debouncedCode] = useDebounce(code, 500);
 
-  const reformat = debounce(async code => {
-    const res = await ky
-      .post("http://localhost:3001", { json: { code } })
-      .json();
+  useEffect(() => {
+    (async () => {
+      controller.abort();
 
-    setDoc(res.doc);
-    setFormattedCode(res.code);
-  });
+      const res = await fetchFormattedCode(code);
+
+      setDoc(res.doc);
+      setFormattedCode(res.code);
+    })();
+  }, [debouncedCode]);
 
   return (
     <Wrapper>
@@ -62,12 +79,11 @@ function App() {
         <AceEditor
           theme="monokai"
           mode="text"
-          onChange={async newCode => {
+          onChange={newCode => {
             setCodeLocalStorage(newCode);
             setCode(newCode);
-            reformat(newCode);
           }}
-          onLoad={() => reformat(code)}
+          onLoad={() => setCode(code)}
           name="editor"
           width="100%"
           height="100vh"
