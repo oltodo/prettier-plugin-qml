@@ -19,7 +19,11 @@ function createError(message, loc) {
 
 function checkJavascriptValue(node) {
   try {
-    parse(node.value, { parser: "babel" });
+    if (node.object) {
+      parse(node.value, { parser: "json" });
+    } else {
+      parse(node.value, { parser: "babel" });
+    }
   } catch (err) {
     if (err instanceof SyntaxError) {
       const { loc } = err;

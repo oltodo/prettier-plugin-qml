@@ -1,6 +1,6 @@
 {
   "name": "prettier-plugin-qml",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "description": "Prettier QML Plugin",
   "repository": "oltodo/prettier-plugin-qml",
   "author": "Nicolas Bazille <@oltodo>",
@@ -10,7 +10,7 @@
     "src"
   ],
   "dependencies": {
-    "@oltodo/qml-parser": "https://github.com/oltodo/qml-parser/tarball/be5e785a915b7462f90f347a8cf19587a313d86c",
+    "@oltodo/qml-parser": "https://github.com/oltodo/qml-parser/tarball/2b3d945a0b2520b3c6645cce5dbe74acd929934c",
     "jest-docblock": "24.3.0",
     "lodash": "4.17.11",
     "mem": "4.1.0",
