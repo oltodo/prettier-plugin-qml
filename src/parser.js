@@ -1,17 +1,15 @@
 "use strict";
 
-const { execSync } = require("child_process");
 const _ = require("lodash");
 const {
   __debug: { parse }
 } = require("prettier");
-
-const escapeString = str => str.replace(/("|`)/g, "\\$1");
+const { parse: parseQml } = require("@oltodo/qml-parser");
 
 function createError(message, loc) {
   // Construct an error similar to the ones thrown by Babel.
   const error = new SyntaxError(
-    message + " (" + loc.start.line + ":" + loc.start.column + ")"
+    `${message} (${loc.start.line}:${loc.start.column})`
   );
   error.loc = loc;
   return error;
@@ -57,16 +55,8 @@ function checkJavascriptNodes(node) {
   }
 }
 
-module.exports = text => {
-  const bin = require.resolve("@oltodo/qml-parser");
-
-  const result = execSync(`${bin} "${escapeString(text)}"`);
-  const ast = JSON.parse(result);
-
-  if (ast === null) {
-    return {};
-  }
-
+module.exports = code => {
+  const ast = parseQml(code);
   checkJavascriptNodes(ast);
 
   return ast;
