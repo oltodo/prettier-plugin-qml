@@ -51,10 +51,12 @@ function genericPrint(path, options, print) {
     }
 
     case "Import": {
+      const quote = options.singleQuote ? "'" : '"';
+
       return concat([
         join(" ", [
           "import",
-          node.identifier || concat(['"', node.path.trim(), '"']),
+          node.identifier || concat([quote, node.path.trim(), quote]),
           node.version || "",
           trim,
           (node.as && join(" ", ["as", node.as])) || ""
