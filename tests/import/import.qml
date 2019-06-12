@@ -12,7 +12,9 @@ Rectangle {
            1.5
        }
     property  var someList: [1, 2, 'three', "four"]
-    property var someObject: Rectangle { width: 100; height: 100; color: 'red' }
+    property var someObject: Rectangle { width: 100; height: 100; color: 'red' 
+    
+    }
     property color   someColor:   "blue"
 
     // Default property
@@ -31,5 +33,12 @@ Rectangle {
     function foobar() {
         console.log ('foobar');
     }
+
+    Rectangle {
+        id: foobar
+        
+    }
+
+
 
 }

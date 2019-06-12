@@ -87,6 +87,8 @@ function genericPrint(path, options, print) {
           options.locStart(node.children[0])
         );
 
+      const isLast = index => index === node.children.length - 1;
+
       const getContent = shouldBreak =>
         group(
           concat([
@@ -99,10 +101,12 @@ function genericPrint(path, options, print) {
                   join(
                     concat([ifBreak("", ";"), line]),
                     path.map(
-                      item =>
+                      (item, index) =>
                         concat([
                           print(item),
-                          printNextEmptyLine(path, options)
+                          !isLast(index)
+                            ? printNextEmptyLine(path, options)
+                            : ""
                         ]),
                       "children"
                     )
