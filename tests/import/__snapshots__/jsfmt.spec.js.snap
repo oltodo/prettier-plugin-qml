@@ -39,7 +39,8 @@ Rectangle {
 
     Rectangle {
         id: foobar
-        
+
+        state: [ State {}, State {} ]   
     }
 
 
@@ -83,6 +84,11 @@ Rectangle {
 
     Rectangle {
         id: foobar
+
+        state: [
+            State {},
+            State {}
+        ]
     }
 }
 

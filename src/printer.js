@@ -162,7 +162,7 @@ function genericPrint(path, options, print) {
     }
 
     case "Property": {
-      const declaration = join(" ", [
+      const parts = [
         ...(node.default ? ["default"] : []),
         ...(node.readonly ? ["readonly"] : []),
         "property",
@@ -170,17 +170,20 @@ function genericPrint(path, options, print) {
           ...(node.typeModifier ? [node.typeModifier, "<"] : []),
           node.type,
           ...(node.typeModifier ? [">"] : [])
-        ]),
-        concat([node.identifier, node.value ? ": " : ""])
-      ]);
+        ])
+      ];
+
+      if (!node.value || node.value.kind !== "ArrayBinding") {
+        parts.push(concat([node.identifier, node.value ? ":" : ""]));
+      }
 
       if (!node.value) {
-        return declaration;
+        return join(" ", parts);
       }
 
       const value = path.call(print, "value");
 
-      return group(concat([declaration, value]));
+      return group(concat([join(" ", parts), " ", value]));
     }
 
     case "Attribute": {
@@ -198,7 +201,8 @@ function genericPrint(path, options, print) {
     case "ArrayBinding": {
       return group(
         concat([
-          "[",
+          node.identifier,
+          ": [",
           group(
             indent(
               concat([

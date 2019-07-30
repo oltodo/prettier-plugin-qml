@@ -36,7 +36,8 @@ Rectangle {
 
     Rectangle {
         id: foobar
-        
+
+        state: [ State {}, State {} ]   
     }
 
 
