@@ -11,26 +11,25 @@
   ],
   "dependencies": {
     "@oltodo/qml-parser": "0.3.0",
-    "jest-docblock": "24.3.0",
-    "lodash": "4.17.11"
+    "jest-docblock": "24.9.0",
+    "lodash": "4.17.15"
   },
   "devDependencies": {
-    "codecov": "3.5.0",
-    "eslint": "5.16.0",
-    "eslint-config-prettier": "4.3.0",
-    "eslint-plugin-import": "2.17.3",
-    "eslint-plugin-jest": "22.6.4",
-    "eslint-plugin-prettier": "3.1.0",
-    "jest": "24.8.0",
-    "jest-runner-eslint": "0.7.4",
-    "prettier": "1.18.2"
+    "codecov": "3.6.1",
+    "eslint": "6.7.1",
+    "eslint-config-prettier": "6.7.0",
+    "eslint-plugin-import": "2.18.2",
+    "eslint-plugin-jest": "23.0.5",
+    "eslint-plugin-prettier": "3.1.1",
+    "jest": "24.9.0",
+    "prettier": "1.19.1"
   },
   "peerDependencies": {
-    "prettier": "1.18.2"
+    "prettier": "1.19.1"
   },
   "scripts": {
     "test": "jest",
-    "prettier": "prettier --plugin=. --parser=php",
+    "prettier": "prettier --plugin=. --parser=qml",
     "playground": "cd playground && yarn start"
   },
   "jest": {

@@ -16,12 +16,6 @@ module.exports = {
       testRegex: "jsfmt\\.spec\\.js$|__tests__/.*\\.js$",
       snapshotSerializers: ["<rootDir>/config/jest/raw-serializer.js"],
       testEnvironment: "node"
-    },
-    {
-      runner: "jest-runner-eslint",
-      displayName: "lint",
-      testMatch: ["<rootDir>/**/*.js"],
-      testPathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/coverage/"]
     }
   ]
 };
