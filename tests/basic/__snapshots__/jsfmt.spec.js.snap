@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`import.qml - qml-verify: import.qml 1`] = `
+exports[`basic.qml - qml-verify: basic.qml 1`] = `
 import   QtQuick 2.5
 import QtQuick.Window   2.2 as   Window   
 import   "path/to/library.js  " as Library

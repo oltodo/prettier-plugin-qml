@@ -124,6 +124,10 @@ function genericPrint(path, options, print) {
       return conditionalGroup([getContent(shouldBreak), getContent(true)]);
     }
 
+    case "ObjectIdentifier": {
+      return `id: ${node.value}`;
+    }
+
     case "Signal": {
       if (!node.parameters) {
         return concat(["signal ", node.identifier]);
@@ -275,6 +279,27 @@ function embedBlock(path, print, textToDoc, options) {
     return group(
       concat(["{", indent(concat([hardline, code])), hardline, "}"])
     );
+  }
+
+  // boolean
+  if (text === "true" || text === "false") {
+    return text;
+  }
+
+  // signed integers or floats
+  if (/^-?[0-9.]+$/.test(text)) {
+    return text;
+  }
+
+  // identifiers
+  if (/^[\w.]+$/.test(text)) {
+    return text;
+  }
+
+  // regular strings
+  if (/^("|')[^"']*("|')$/.test(text)) {
+    const delimiter = options.singleQuote ? "'" : '"';
+    return `${delimiter}${_.trim(text, `'"`)}${delimiter}`;
   }
 
   let content;
