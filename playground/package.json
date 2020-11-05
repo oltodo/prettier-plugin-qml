@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "ky": "0.9.0",
-    "lodash": "4.17.11",
+    "lodash": "4.17.19",
     "raw.macro": "0.3.0",
     "react": "16.8.6",
     "react-ace": "6.4.0",
