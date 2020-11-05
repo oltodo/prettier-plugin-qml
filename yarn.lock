@@ -305,10 +305,10 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
 
-"@oltodo/qml-parser@0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@oltodo/qml-parser/-/qml-parser-0.5.0.tgz#c239daa846bd692879c4853cf1f18c68cb4078b8"
-  integrity sha512-XsyCXF4t2QQA/j9XbJMiumQeeJkF3YJBjBI3b7P8tgfVjy1IjUX+LlaiZ8lXKWE3C9Av02IMplOKmQU+qqUOLQ==
+"@oltodo/qml-parser@0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@oltodo/qml-parser/-/qml-parser-0.6.0.tgz#7756d075bf4d17b8b6dfe66ba3a23124debfdd7f"
+  integrity sha512-aURNgOr9ru5YdWicGLoBk0C2I0J63y3Dlga41zuVzHc6mkJnD4dogLvBGLe1r+avkUXk9iwPbxp7MFuf2G4fXg==
 
 "@types/babel__core@^7.1.0":
   version "7.1.2"
