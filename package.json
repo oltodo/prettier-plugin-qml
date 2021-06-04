@@ -15,7 +15,7 @@
   "dependencies": {
     "@nbazille/qml-parser": "1.0.0",
     "jest-docblock": "24.9.0",
-    "lodash": "4.17.15"
+    "lodash": "4.17.21"
   },
   "devDependencies": {
     "codecov": "3.6.1",
