@@ -33,11 +33,17 @@
   "scripts": {
     "test": "jest",
     "prettier": "prettier --plugin=. --parser=qml",
-    "playground": "cd playground && yarn start"
+    "playground": "cd playground && yarn start",
+    "release": "release-it"
   },
   "jest": {
     "projects": [
       "<rootDir>/jest.*.config.js"
     ]
+  },
+  "release-it": {
+    "github": {
+      "release": true
+    }
   }
 }
