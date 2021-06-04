@@ -9,8 +9,11 @@
   "files": [
     "src"
   ],
+  "engines": {
+    "node": ">= 10.11.0"
+  },
   "dependencies": {
-    "@oltodo/qml-parser": "0.6.0",
+    "@nbazille/qml-parser": "1.0.0",
     "jest-docblock": "24.9.0",
     "lodash": "4.17.15"
   },
