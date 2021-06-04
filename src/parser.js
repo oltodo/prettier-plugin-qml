@@ -1,7 +1,7 @@
 "use strict";
 
-const { parse: parseQml } = require("@oltodo/qml-parser");
+const { parseFile } = require("@nbazille/qml-parser");
 
-module.exports = code => {
-  return parseQml(code);
+module.exports = (code, _, { filepath }) => {
+  return parseFile(filepath);
 };
