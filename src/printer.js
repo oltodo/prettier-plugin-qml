@@ -331,7 +331,7 @@ function printLines(path, options, print, childrenAttribute = "children") {
 function printNextEmptyLine(path, options) {
   const node = path.getValue();
 
-  if (isNextLineEmpty(options.originalText, node, options)) {
+  if (isNextLineEmpty(options.originalText, node, options.locEnd)) {
     return hardline;
   }
 
@@ -386,13 +386,21 @@ function toSingleQuote(doc) {
 }
 
 function stripTrailingSemiColon(doc) {
-  if (doc.parts) {
-    const index = _.indexOf(doc.parts, ";");
+  if (typeof doc === "string") {
+    if (doc.endsWith(";")) {
+      doc = doc.slice(0, -1);
+    }
+
+    return doc;
+  }
+
+  if (Array.isArray(doc)) {
+    const index = _.indexOf(doc, ";");
 
     if (index === -1) {
-      doc.parts = _.map(doc.parts, stripTrailingSemiColon);
+      doc = _.map(doc, stripTrailingSemiColon);
     } else {
-      doc.parts = _.slice(doc.parts, 0, index);
+      doc = _.slice(doc, 0, index);
     }
   }
 
