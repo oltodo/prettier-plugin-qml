@@ -256,7 +256,7 @@ function handleLastFunctionArgComments(
   const nextCharIndex = getNextNonSpaceNonCommentCharacterIndex(
     text,
     comment,
-    options
+    options.locEnd
   );
   const nextCharacter = text.charAt(nextCharIndex);
 
