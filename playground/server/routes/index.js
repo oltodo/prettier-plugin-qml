@@ -4,12 +4,12 @@ const prettier = require("prettier");
 const router = express.Router();
 
 /* GET home page. */
-router.post("/", function(req, res, next) {
+router.post("/", function (req, res, next) {
   const { code } = req.body;
 
   const options = {
     parser: "qml",
-    plugins: ["./plugins/prettier-plugin-qml"]
+    plugins: ["./plugins/prettier-plugin-qml"],
   };
 
   const formattedCode = prettier.format(code, options);

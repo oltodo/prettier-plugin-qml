@@ -7,7 +7,7 @@ module.exports = {
   collectCoverageFrom: [
     "<rootDir>/src/**/*.js",
     "!<rootDir>/node_modules/",
-    "!<rootDir>/config/jest/"
+    "!<rootDir>/config/jest/",
   ],
   projects: [
     {
@@ -15,7 +15,7 @@ module.exports = {
       setupFiles: ["<rootDir>/config/jest/run_spec.js"],
       testRegex: "jsfmt\\.spec\\.js$|__tests__/.*\\.js$",
       snapshotSerializers: ["<rootDir>/config/jest/raw-serializer.js"],
-      testEnvironment: "node"
-    }
-  ]
+      testEnvironment: "node",
+    },
+  ],
 };

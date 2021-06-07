@@ -14,11 +14,11 @@ const languages = [
     codemirrorMode: "qml",
     extensions: [".qml", ".qbs"],
     vscodeLanguageIds: ["qml"],
-    linguistLanguageId: 305
-  }
+    linguistLanguageId: 305,
+  },
 ];
 
-const loc = prop => node => {
+const loc = (prop) => (node) => {
   return node.loc && node.loc[prop] && node.loc[prop].offset;
 };
 
@@ -28,12 +28,12 @@ const parsers = {
     astFormat: "qml",
     locStart: loc("start"),
     locEnd: loc("end"),
-    hasPragma
-  }
+    hasPragma,
+  },
 };
 
 const printers = {
-  qml: printer
+  qml: printer,
 };
 
 module.exports = {
@@ -44,6 +44,6 @@ module.exports = {
   defaultOptions: {
     tabWidth: 4,
     trailingComma: "none",
-    singleQuote: true
-  }
+    singleQuote: true,
+  },
 };

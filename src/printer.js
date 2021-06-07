@@ -15,11 +15,11 @@ const {
       line,
       markAsRoot,
       softline,
-      trim
+      trim,
     },
-    utils: { stripTrailingHardline }
+    utils: { stripTrailingHardline },
   },
-  util: { isNextLineEmpty, hasNewlineInRange }
+  util: { isNextLineEmpty, hasNewlineInRange },
 } = require("prettier");
 
 const comments = require("./comments");
@@ -59,9 +59,9 @@ function genericPrint(path, options, print) {
           node.identifier || concat([quote, node.path.trim(), quote]),
           node.version || "",
           trim,
-          (node.as && join(" ", ["as", node.as])) || ""
+          (node.as && join(" ", ["as", node.as])) || "",
         ]),
-        hardline
+        hardline,
       ]);
     }
 
@@ -87,9 +87,9 @@ function genericPrint(path, options, print) {
           options.locStart(node.children[0])
         );
 
-      const isLast = index => index === node.children.length - 1;
+      const isLast = (index) => index === node.children.length - 1;
 
-      const getContent = shouldBreak =>
+      const getContent = (shouldBreak) =>
         group(
           concat([
             ...parts,
@@ -106,17 +106,17 @@ function genericPrint(path, options, print) {
                           print(item),
                           !isLast(index)
                             ? printNextEmptyLine(path, options)
-                            : ""
+                            : "",
                         ]),
                       "children"
                     )
                   ),
                   { shouldBreak }
-                )
+                ),
               ])
             ),
             line,
-            "}"
+            "}",
           ]),
           { shouldBreak }
         );
@@ -150,18 +150,18 @@ function genericPrint(path, options, print) {
                           item.type,
                           " ",
                           item.identifier,
-                          ...(index < node.parameters.length - 1 ? [", "] : [])
+                          ...(index < node.parameters.length - 1 ? [", "] : []),
                         ]),
                       "parameters"
                     )
                   )
                 ),
-                softline
+                softline,
               ])
             ),
-            ")"
+            ")",
           ])
-        )
+        ),
       ]);
     }
 
@@ -173,8 +173,8 @@ function genericPrint(path, options, print) {
         concat([
           ...(node.typeModifier ? [node.typeModifier, "<"] : []),
           node.type,
-          ...(node.typeModifier ? [">"] : [])
-        ])
+          ...(node.typeModifier ? [">"] : []),
+        ]),
       ];
 
       if (!node.value || node.value.kind !== "ArrayBinding") {
@@ -213,13 +213,13 @@ function genericPrint(path, options, print) {
                 hardline,
                 join(
                   concat([",", hardline]),
-                  path.map(item => print(item), "children")
-                )
+                  path.map((item) => print(item), "children")
+                ),
               ])
             )
           ),
           hardline,
-          "]"
+          "]",
         ])
       );
     }
@@ -316,10 +316,10 @@ function embedBlock(path, print, textToDoc, options) {
 function printLines(path, options, print, childrenAttribute = "children") {
   const parts = [];
 
-  path.map(childPath => {
+  path.map((childPath) => {
     const printed = concat([
       print(childPath),
-      printNextEmptyLine(path, options)
+      printNextEmptyLine(path, options),
     ]);
 
     parts.push(printed);
@@ -341,7 +341,7 @@ function printNextEmptyLine(path, options) {
 function getJavascriptCodeBlockValue(text, textToDoc) {
   const { languages } = getSupportInfo();
   const {
-    parsers: [parser]
+    parsers: [parser],
   } = _.find(languages, { name: "JavaScript" });
 
   const doc = textToDoc(text, { parser });
@@ -352,7 +352,7 @@ function getJavascriptCodeBlockValue(text, textToDoc) {
 function getJsonCodeBlockValue(text, textToDoc, singleQuote) {
   const { languages } = getSupportInfo();
   const {
-    parsers: [parser]
+    parsers: [parser],
   } = _.find(languages, { name: "JSON" });
 
   let doc = textToDoc(text, { parser });
@@ -430,7 +430,7 @@ module.exports = {
   handleComments: {
     ownLine: comments.handleOwnLineComment,
     endOfLine: comments.handleEndOfLineComment,
-    remaining: comments.handleRemainingComment
+    remaining: comments.handleRemainingComment,
   },
   printComment(commentPath) {
     const comment = commentPath.getValue();
@@ -445,7 +445,9 @@ module.exports = {
         const lines = comment.value.split(/\r?\n/g);
         // if this is a block comment, handle indentation
         if (
-          lines.slice(1, lines.length - 1).every(line => line.trim()[0] === "*")
+          lines
+            .slice(1, lines.length - 1)
+            .every((line) => line.trim()[0] === "*")
         ) {
           return join(
             hardline,
@@ -474,7 +476,7 @@ module.exports = {
       node &&
       node.comments &&
       node.comments.length > 0 &&
-      node.comments.some(comment => comment.value.includes("prettier-ignore"))
+      node.comments.some((comment) => comment.value.includes("prettier-ignore"))
     );
-  }
+  },
 };
