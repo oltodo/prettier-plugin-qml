@@ -9,7 +9,7 @@ const { AST_COMPARE } = process.env;
 function run_spec(dirname, parsers, options) {
   options = Object.assign(
     {
-      plugins: ["."]
+      plugins: ["."],
     },
     options
   );
@@ -19,7 +19,7 @@ function run_spec(dirname, parsers, options) {
     throw new Error(`No parsers were specified for ${dirname}`);
   }
 
-  fs.readdirSync(dirname).forEach(filename => {
+  fs.readdirSync(dirname).forEach((filename) => {
     const path = `${dirname}/${filename}`;
     if (
       extname(filename) !== ".snap" &&
@@ -34,7 +34,7 @@ function run_spec(dirname, parsers, options) {
       }
 
       const mergedOptions = Object.assign(mergeDefaultOptions(options || {}), {
-        parser: parsers[0]
+        parser: parsers[0],
       });
       const output = prettyprint(source, path, mergedOptions);
       test(`${filename} - ${mergedOptions.parser}-verify`, () => {
@@ -43,7 +43,7 @@ function run_spec(dirname, parsers, options) {
         ).toMatchSnapshot(filename);
       });
 
-      parsers.slice(1).forEach(parser => {
+      parsers.slice(1).forEach((parser) => {
         const verifyOptions = Object.assign(mergedOptions, { parser });
         test(`${filename} - ${parser}-verify`, () => {
           const verifyOutput = prettyprint(source, path, verifyOptions);
@@ -88,7 +88,7 @@ function prettyprint(src, filename, options) {
     src,
     Object.assign(
       {
-        filepath: filename
+        filepath: filename,
       },
       options
     )
@@ -114,7 +114,7 @@ function raw(string) {
 function mergeDefaultOptions(parserConfig) {
   return Object.assign(
     {
-      printWidth: 80
+      printWidth: 80,
     },
     parserConfig
   );

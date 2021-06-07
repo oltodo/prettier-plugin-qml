@@ -36,9 +36,9 @@
   },
   "scripts": {
     "test": "jest",
-    "prettier": "prettier --plugin=. --parser=qml",
     "playground": "cd playground && yarn start",
-    "release": "release-it"
+    "release": "release-it",
+    "format": "prettier --write --ignore-unknown '**/*'"
   },
   "jest": {
     "projects": [

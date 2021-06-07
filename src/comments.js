@@ -7,7 +7,7 @@ const {
   getNextNonSpaceNonCommentCharacterIndex,
   isNextLineEmpty,
   hasNewline,
-  hasNewlineInRange
+  hasNewlineInRange,
 } = require("prettier").util;
 const { concat, join, indent, hardline } = require("prettier").doc.builders;
 // TODO: remove after resolve https://github.com/prettier/prettier/pull/5049
@@ -404,7 +404,7 @@ function handleClassComments(enclosingNode, followingNode, comment) {
         }
       } else {
         if (
-          enclosingNode.extends.some(extendsNode => {
+          enclosingNode.extends.some((extendsNode) => {
             if (followingNode && followingNode === extendsNode) {
               addDanglingComment(followingNode, comment);
               return true;
@@ -420,7 +420,7 @@ function handleClassComments(enclosingNode, followingNode, comment) {
     // them as dangling comments and handle them in the printer
     if (followingNode && enclosingNode.implements) {
       if (
-        enclosingNode.implements.some(implementsNode => {
+        enclosingNode.implements.some((implementsNode) => {
           if (followingNode && followingNode === implementsNode) {
             addDanglingComment(followingNode, comment);
             return true;
@@ -784,7 +784,7 @@ function printDanglingComments(path, options, sameIndent, filter) {
     return "";
   }
 
-  path.each(commentPath => {
+  path.each((commentPath) => {
     const comment = commentPath.getValue();
     if (
       comment &&
@@ -807,18 +807,18 @@ function printDanglingComments(path, options, sameIndent, filter) {
 }
 
 function hasLeadingComment(node) {
-  return node.comments && node.comments.some(comment => comment.leading);
+  return node.comments && node.comments.some((comment) => comment.leading);
 }
 
 function hasTrailingComment(node) {
-  return node.comments && node.comments.some(comment => comment.trailing);
+  return node.comments && node.comments.some((comment) => comment.trailing);
 }
 
 function hasLeadingOwnLineComment(text, node, options) {
   return (
     node.comments &&
     node.comments.some(
-      comment => comment.leading && hasNewline(text, options.locEnd(comment))
+      (comment) => comment.leading && hasNewline(text, options.locEnd(comment))
     )
   );
 }
@@ -848,10 +848,10 @@ function getCommentChildNodes(node) {
     return [];
   }
 
-  const getChildNodes = node =>
+  const getChildNodes = (node) =>
     Object.keys(node)
       .filter(
-        n =>
+        (n) =>
           n !== "kind" &&
           n !== "loc" &&
           n !== "errors" &&
@@ -862,7 +862,7 @@ function getCommentChildNodes(node) {
           n !== "precedingNode" &&
           n !== "followingNode"
       )
-      .map(n => node[n]);
+      .map((n) => node[n]);
 
   return getChildNodes(node);
 }
@@ -884,5 +884,5 @@ module.exports = {
   hasLeadingComment,
   hasTrailingComment,
   hasLeadingOwnLineComment,
-  printComments
+  printComments,
 };

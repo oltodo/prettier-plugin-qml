@@ -39,14 +39,14 @@ const ColumnRight = styled(Column)``;
 
 let controller = new AbortController();
 
-const fetchFormattedCode = code => {
+const fetchFormattedCode = (code) => {
   controller = new AbortController();
 
   return ky
     .post("http://localhost:3001", {
       json: { code },
       signal: controller.signal,
-      timeout: 10000
+      timeout: 10000,
     })
     .json();
 };
@@ -79,7 +79,7 @@ function App() {
         <AceEditor
           theme="monokai"
           mode="text"
-          onChange={newCode => {
+          onChange={(newCode) => {
             setCodeLocalStorage(newCode);
             setCode(newCode);
           }}
