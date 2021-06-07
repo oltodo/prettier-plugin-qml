@@ -394,13 +394,13 @@ function stripTrailingSemiColon(doc) {
     return doc;
   }
 
-  if (Array.isArray(doc)) {
-    const index = _.indexOf(doc, ";");
+  if (Array.isArray(doc.parts)) {
+    const index = _.indexOf(doc.parts, ";");
 
     if (index === -1) {
-      doc = _.map(doc, stripTrailingSemiColon);
+      doc.parts = _.map(doc.parts, stripTrailingSemiColon);
     } else {
-      doc = _.slice(doc, 0, index);
+      doc.parts = _.slice(doc.parts, 0, index);
     }
   }
 
