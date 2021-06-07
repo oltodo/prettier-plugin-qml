@@ -394,8 +394,6 @@ function stripTrailingSemiColon(doc) {
     return doc;
   }
 
-  if (Array.isArray(doc)) {
-    const index = _.indexOf(doc, ";");
   if (Array.isArray(doc.parts)) {
     const index = _.indexOf(doc.parts, ";");
 
