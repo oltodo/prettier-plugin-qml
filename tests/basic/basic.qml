@@ -30,6 +30,11 @@ Rectangle {
         Rectangle { color: "blue"}
     ]
 
+    readonly property var foo: {
+      "bar":    [
+          hello, world]
+    }
+
     function foobar() {
         console.log ('foobar');
     }

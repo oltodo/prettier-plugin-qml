@@ -28,11 +28,11 @@
     "eslint-plugin-jest": "24.3.6",
     "eslint-plugin-prettier": "3.4.0",
     "jest": "27.0.4",
-    "prettier": "2.3.0",
+    "prettier": "2.2.1",
     "release-it": "14.7.0"
   },
   "peerDependencies": {
-    "prettier": "1.19.1"
+    "prettier": ">=2 <2.3"
   },
   "scripts": {
     "test": "jest",
