@@ -16,7 +16,7 @@
     "node": ">= 10.11.0"
   },
   "dependencies": {
-    "@nbazille/qml-parser": "1.0.0",
+    "@nbazille/qml-parser": "2.1.0-beta.0",
     "jest-docblock": "27.0.1",
     "lodash": "4.17.21"
   },
