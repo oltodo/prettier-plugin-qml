@@ -628,10 +628,10 @@
     "@types/yargs" "^16.0.0"
     chalk "^4.0.0"
 
-"@nbazille/qml-parser@2.1.0-beta.0":
-  version "2.1.0-beta.0"
-  resolved "https://registry.yarnpkg.com/@nbazille/qml-parser/-/qml-parser-2.1.0-beta.0.tgz#0430418d85545c842c288092f7e9dd208b60e05f"
-  integrity sha512-Bx6WFrhOIoVgog/OojE70/pimwxJPV+Sq/gwy2Iwd2rRv6d2wu8ZFOCqHJrVVLyqQ+lW0Tmj+jhGSGvcdAJSaA==
+"@nbazille/qml-parser@2.1.0-beta.1":
+  version "2.1.0-beta.1"
+  resolved "https://registry.yarnpkg.com/@nbazille/qml-parser/-/qml-parser-2.1.0-beta.1.tgz#ccef38c65280cdd07c561743accf6be535c5be25"
+  integrity sha512-m8Yr9cEhFI3yvbBe9fNYG6qmEnMzOCMngJDzrQZ9PLOFZq3+L5yawDbT9AuHcYZsUERfTSWF9KQJd5AoEAPmsg==
   dependencies:
     dotenv "10.0.0"
     fs-chmod "1.0.6"
